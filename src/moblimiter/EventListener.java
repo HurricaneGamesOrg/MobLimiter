@@ -17,7 +17,7 @@ public class EventListener implements Listener {
 	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
 	public void onMobSpawn(CreatureSpawnEvent e)
 	{
-		if (getCurrentCreaturesCount(e.getEntity())>=getCreaturesSpawnLimit(e.getEntity()))
+		if (getCurrentCreaturesCount(e.getEntity())>getCreaturesSpawnLimit(e.getEntity()))
 		{
 			e.setCancelled(true);
 		}
