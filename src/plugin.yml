@@ -1,0 +1,8 @@
+name: MobLimiter
+main: moblimiter.MobLimiter
+version: 1.0
+author: _Shevchik_
+commands:
+    moblimiter:
+        description: Reload command for MobLimiter
+        usage: /moblimiter reload - reload configuration
