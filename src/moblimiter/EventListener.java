@@ -1,5 +1,9 @@
 package moblimiter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -9,20 +13,39 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 public class EventListener implements Listener {
 
 	private Config config;
-	public EventListener(Config config)
+	private MobLimiter plugin;
+	public EventListener(MobLimiter plugin, Config config)
 	{
+		this.plugin = plugin;
 		this.config = config;
 	}
 	
+	private List<Entity> entityToRemove = new ArrayList<Entity>();
 	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
 	public void onMobSpawn(CreatureSpawnEvent e)
 	{
-		if (getCurrentCreaturesCount(e.getEntity())>getCreaturesSpawnLimit(e.getEntity()))
+		Entity entity = e.getEntity();
+		if (getCurrentCreaturesCount(entity)>getCreaturesSpawnLimit(entity))
 		{
-			e.setCancelled(true);
+			entityToRemove.add(entity);
 		}
 	}
 	
+	public void initEntityRemoveTask()
+	{
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
+			public void run() {
+				for (Entity erm : entityToRemove)
+				{
+					if (erm.isValid())
+					{
+						erm.remove();
+					}
+				}
+				entityToRemove.clear();
+			}
+		}, 0, 1);
+	}
 	
 	
 	private int getCurrentCreaturesCount(Entity ent)

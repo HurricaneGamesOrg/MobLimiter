@@ -1,6 +1,6 @@
 name: MobLimiter
 main: moblimiter.MobLimiter
-version: 1.0
+version: 2.0
 author: _Shevchik_
 commands:
     moblimiter:

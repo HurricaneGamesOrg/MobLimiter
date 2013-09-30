@@ -14,7 +14,8 @@ public class MobLimiter extends JavaPlugin {
 	{
 		config = new Config(this);
 		config.loadConfig();
-		listener = new EventListener(config);
+		listener = new EventListener(this, config);
+		listener.initEntityRemoveTask();
 		getServer().getPluginManager().registerEvents(listener, this);
 		commands = new Commands(config);
 		getCommand("moblimiter").setExecutor(commands);
