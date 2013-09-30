@@ -34,7 +34,13 @@ public class Commands implements CommandExecutor {
 			{
 				for (EntityType etype : EntityType.values())
 				{
-					if (etype.isAlive())
+					boolean notnull = true;
+					try {
+						etype.getName().equals("fake");
+					} catch (Exception e) {
+						notnull = false;
+					}
+					if (etype.isAlive() && notnull)
 					{
 						int ccount = Bukkit.getWorld(args[1]).getEntitiesByClass(etype.getEntityClass()).size();
 						int limit = config.getCreatureSpawnLimit(etype);
