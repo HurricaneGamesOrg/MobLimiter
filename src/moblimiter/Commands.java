@@ -1,5 +1,6 @@
 package moblimiter;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,31 +30,27 @@ public class Commands implements CommandExecutor {
 				sender.sendMessage("Configuration reloaded");
 				return true;
 			} else
-			if (args.length == 1 && args[0].equalsIgnoreCase("count"))
+			if (args.length == 2 && args[0].equalsIgnoreCase("count"))
 			{
-				if (sender instanceof Player)
+				for (EntityType etype : EntityType.values())
 				{
-					Player player = (Player) sender;
-					for (EntityType etype : EntityType.values())
+					if (etype.isAlive())
 					{
-						if (etype.isAlive())
+						int ccount = Bukkit.getWorld(args[1]).getEntitiesByClass(etype.getEntityClass()).size();
+						int limit = config.getCreatureSpawnLimit(etype);
+						StringBuilder message = new StringBuilder(50);
+						message.append(ChatColor.BLUE+etype.getName());
+						message.append(": ");
+						message.append(ChatColor.RED+String.valueOf(ccount));
+						if (limit != -1)
 						{
-							int ccount = player.getWorld().getEntitiesByClass(etype.getEntityClass()).size();
-							int limit = config.getCreatureSpawnLimit(etype);
-							StringBuilder message = new StringBuilder(50);
-							message.append(ChatColor.BLUE+etype.getName());
-							message.append(": ");
-							message.append(ChatColor.RED+String.valueOf(ccount));
-							if (limit != -1)
-							{
-								message.append(ChatColor.GREEN+" / ");
-								message.append(ChatColor.GOLD+String.valueOf(limit));
-							}					
-							player.sendMessage(message.toString());
-						}
+							message.append(ChatColor.GREEN+" / ");
+							message.append(ChatColor.GOLD+String.valueOf(limit));
+						}					
+						sender.sendMessage(message.toString());
 					}
-					return true;
 				}
+				return true;
 			}
 		}
 		return false;
