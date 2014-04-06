@@ -8,10 +8,9 @@ public class MobLimiter extends JavaPlugin {
 	private Config config;
 	private EventListener listener;
 	private Commands commands;
-	
+
 	@Override
-	public void onEnable()
-	{
+	public void onEnable() {
 		config = new Config(this);
 		config.loadConfig();
 		listener = new EventListener(config);
@@ -19,15 +18,13 @@ public class MobLimiter extends JavaPlugin {
 		commands = new Commands(config);
 		getCommand("moblimiter").setExecutor(commands);
 	}
-	
+
 	@Override
-	public void onDisable()
-	{
+	public void onDisable() {
 		HandlerList.unregisterAll(this);
 		listener = null;
 		commands = null;
 		config = null;
 	}
-	
-	
+
 }
