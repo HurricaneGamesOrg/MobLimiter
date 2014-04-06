@@ -48,10 +48,14 @@ public class Commands implements CommandExecutor {
 				for (World world : Bukkit.getWorlds()) {
 					world.setMonsterSpawnLimit(Integer.valueOf(args[1]));
 				}
+				sender.sendMessage("Monter spawn limit set");
+				return true;
 			} else if (args.length == 2 && args[0].equalsIgnoreCase("setanimalspawnlimit")) {
 				for (World world : Bukkit.getWorlds()) {
 					world.setAnimalSpawnLimit(Integer.valueOf(args[1]));
 				}
+				sender.sendMessage("Animal spawn limit set");
+				return true;
 			}
 		}
 		return false;
