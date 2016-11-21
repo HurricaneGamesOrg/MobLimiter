@@ -11,30 +11,28 @@ import org.bukkit.entity.EntityType;
 
 public class Config {
 
+	private final File configfile;
 	public Config(MobLimiter plugin) {
 		configfile = new File(plugin.getDataFolder(), "config.yml");
 	}
 
-	private HashMap<EntityType, Integer> enttypeidlimit = new HashMap<EntityType, Integer>();
+	private final HashMap<EntityType, Integer> enttypeidlimit = new HashMap<EntityType, Integer>();
 
 	public int getCreatureSpawnLimit(EntityType etype) {
 		if (enttypeidlimit.containsKey(etype)) {
 			return enttypeidlimit.get(etype).intValue();
 		} else {
-			return -1;
+			return Integer.MAX_VALUE;
 		}
 	}
 
-	private File configfile;
-
-	@SuppressWarnings("deprecation")
 	public void loadConfig() {
 		FileConfiguration config = YamlConfiguration.loadConfiguration(configfile);
 		enttypeidlimit.clear();
 		ConfigurationSection cs = config.getConfigurationSection("");
 		if (cs != null) {
 			for (String type : cs.getKeys(false)) {
-				enttypeidlimit.put(EntityType.fromName(type), config.getInt(type));
+				enttypeidlimit.put(EntityType.valueOf(type), config.getInt(type));
 			}
 		}
 		saveConfig();
