@@ -38,11 +38,10 @@ public class Config {
 		saveConfig();
 	}
 
-	@SuppressWarnings("deprecation")
 	private void saveConfig() {
 		FileConfiguration config = new YamlConfiguration();
 		for (EntityType etype : enttypeidlimit.keySet()) {
-			config.set(etype.getName(), enttypeidlimit.get(etype));
+			config.set(etype.toString(), enttypeidlimit.get(etype));
 		}
 		try {
 			config.save(configfile);
